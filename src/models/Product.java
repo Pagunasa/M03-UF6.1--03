@@ -8,19 +8,19 @@ public class Product {
     private double pvp;
 
     public int getProduct() {
-        return product;
+        return this.product;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public int getCurrenStock() {
-        return currenStock;
+        return this.currenStock;
     }
 
     public double getPvp() {
-        return pvp;
+        return this.pvp;
     }
 
     public void setCurrenStock(int currenStock) {

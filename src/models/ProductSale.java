@@ -7,18 +7,18 @@ public class ProductSale {
     private int quantity;
     
     public int getIdProduct(){
-        return 0;
+        return this.idProduct;
     }
     
     public int getIdSale(){
-        return 0;
+        return this.idSale;
     }
     
     public int getQuantity(){
-        return 0;
+        return this.quantity;
     }
     
-    public void serQuantity(){
-        
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 }
