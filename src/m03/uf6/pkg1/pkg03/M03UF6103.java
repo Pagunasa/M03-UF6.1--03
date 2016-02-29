@@ -1,15 +1,20 @@
 package m03.uf6.pkg1.pkg03;
 
+import dao.clientDAOJDBCImplem;
+import exceptions.DAOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Client;
 import singleton.DatabaseConnection;
 
 public class M03UF6103 {
 
     static Scanner scanner = new Scanner(System.in);
-
+    
     public static void main(String[] args) {
         
        String option = "0";

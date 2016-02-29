@@ -26,13 +26,19 @@ public class clientDAOJDBCImplem implements interfaceDAO<Client, String>{
             Client client = new Client();
             
             while (rs.next()){
-                client.setCif(rs.getString("cif"));
+                client.setCif(rs.getString(1));
+                System.out.println(rs.getString(1));
+                client.setDirection(rs.getString(3));
+                client.setName(rs.getString(2));
+                client.setTown(rs.getString(4));
+                client.setTelephone(rs.getString(5));
+                clients.add(client);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(clientDAOJDBCImplem.class.getName()).log(Level.SEVERE, null, ex);
         }
-               
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return clients;
     }
 }
