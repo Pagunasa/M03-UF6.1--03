@@ -1,6 +1,10 @@
 package m03.uf6.pkg1.pkg03;
 
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import singleton.DatabaseConnection;
 
 public class M03UF6103 {
 
@@ -9,7 +13,7 @@ public class M03UF6103 {
     public static void main(String[] args) {
         
        String option = "0";
-      
+       
        do{
            
            System.out.println("Elige opción:\n1.- Ver Clientes" +
