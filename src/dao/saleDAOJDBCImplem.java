@@ -12,9 +12,4 @@ public class saleDAOJDBCImplem implements interfaceDAO<Sale, Integer>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void insertSales(String query) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
