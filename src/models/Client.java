@@ -7,24 +7,26 @@ public class Client {
     private String direction;
     private String town;
     private String telephone;
-    
-    public String getCIF(){
-        return null;
+
+    public String getCif() {
+        return cif;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public String getTelephone() {
+        return telephone;
     }
     
-    public String getName(){
-        return null;
-    }
     
-    public String getDirection(){
-        return null;
-    }
-    
-    public String getTown(){
-        return null;
-    }
-    
-    public int getTelephone(){
-        return 0;
-    }
 }
