@@ -27,6 +27,26 @@ public class Client {
     public String getTelephone() {
         return telephone;
     }
+
+    public void setCif(String cif) {
+        this.cif = cif;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
     
     
 }
