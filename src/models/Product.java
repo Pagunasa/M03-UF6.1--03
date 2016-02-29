@@ -2,13 +2,13 @@ package models;
 
 public class Product {
     
-    private int product;
+    private int idProduct;
     private String description;
     private int currenStock;
     private double pvp;
 
     public int getProduct() {
-        return this.product;
+        return this.idProduct;
     }
 
     public String getDescription() {

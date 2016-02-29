@@ -3,11 +3,12 @@ package dao;
 import exceptions.DAOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import models.Sale;
 
-public class saleDAOJDBCImplem implements interfaceDAO{
+public class saleDAOJDBCImplem implements interfaceDAO<Sale, Integer>{
 
     @Override
-    public ArrayList list(Connection connection) throws DAOException {
+    public ArrayList<Sale> list(Connection connection) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -15,5 +16,5 @@ public class saleDAOJDBCImplem implements interfaceDAO{
     public void insertSales(String query) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

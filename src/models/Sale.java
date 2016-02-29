@@ -8,10 +8,10 @@ public class Sale {
     private Date saleDate;
     
     public int getIdSale(){
-        return idSale;
+        return this.idSale;
     }
     
     public Date getSaleDate(){
-        return saleDate;
+        return this.saleDate;
     }
 }
