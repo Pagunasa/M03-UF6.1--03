@@ -117,7 +117,7 @@ public class SaleDAOImplem{
                 result = false;
             }
             
-            /*FALTA COMPROBAR LA CANTIDAD*/
+
             
             //Insert sales on database
             try{
