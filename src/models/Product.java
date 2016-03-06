@@ -5,7 +5,7 @@ public class Product {
     //Class variables
     private int idProduct;
     private String description;
-    private int currenStock;
+    private int currentStock;
     private double pvp;
 
     //Getters
@@ -17,8 +17,8 @@ public class Product {
         return this.description;
     }
 
-    public int getCurrenStock() {
-        return this.currenStock;
+    public int getCurrentStock() {
+        return this.currentStock;
     }
 
     public double getPvp() {
@@ -26,7 +26,20 @@ public class Product {
     }
 
     //Setters
-    public void setCurrenStock(int currenStock) {
-        this.currenStock = currenStock;
-    }  
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCurrentStock(int currenStock) {
+        this.currentStock = currenStock;
+    } 
+    
+    public void setPvp(double pvp) {
+        this.pvp = pvp;
+    }
+    
 }

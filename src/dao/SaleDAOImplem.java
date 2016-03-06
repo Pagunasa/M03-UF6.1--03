@@ -101,7 +101,7 @@ public class SaleDAOImplem{
                 result = false;
             }
             
-            if(product.getCurrenStock() > 0){
+            if(product.getCurrentStock() > 0){
                 result = true;
             }else{
                 System.out.println("Stock must be higher than zero");

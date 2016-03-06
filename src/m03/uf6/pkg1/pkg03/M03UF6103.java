@@ -2,6 +2,7 @@ package m03.uf6.pkg1.pkg03;
 
 import dao.ClientDAOImplem;
 import dao.DAOFactory;
+import dao.ProductDAOImplem;
 import dao.SaleDAOImplem;
 import exceptions.DAOException;
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import models.Client;
+import models.Product;
 import models.Sale;
 import singleton.DatabaseConnection;
 
@@ -19,8 +21,7 @@ public class M03UF6103 {
     static Scanner scanner = new Scanner(System.in);
     static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
     
-    public static void main(String[] args) {
-       
+    public static void main(String[] args) { 
     //Variables
     DAOFactory saleFactory = new DAOFactory();
     SaleDAOImplem saleDAOImplem = saleFactory.createSaleDAO();
@@ -28,6 +29,10 @@ public class M03UF6103 {
     DAOFactory clientFactory = new DAOFactory();
     ClientDAOImplem clientDAOImplem = clientFactory.createClientDAO();
     ArrayList<Client> clientsArray;
+    DAOFactory productFactory = new DAOFactory();
+    ProductDAOImplem productDAOImplem = productFactory.createProductDAO();
+    ArrayList<Product> productsArray;
+    
    
         try{
             DatabaseConnection.getInstance();
@@ -48,20 +53,38 @@ public class M03UF6103 {
                         try{
                             clientsArray = clientDAOImplem.list(DatabaseConnection.getInstance());
                             
-                            for(Client client : clientsArray){
-                                System.out.println("Client CIF: " +client.getCif());
-                                System.out.println("\tName: " +client.getName());
-                                System.out.println("\tDirection: " +client.getDirection());
-                                System.out.println("\tTown: " +client.getTown());
-                                System.out.println("\tTelephone: " +client.getTelephone());
+                            if(clientsArray.isEmpty()){
+                                System.out.println("Table clients it's empty!");
+                            }else{
+                                for(Client client : clientsArray){
+                                    System.out.println("Client CIF: " +client.getCif());
+                                    System.out.println("\tName: " +client.getName());
+                                    System.out.println("\tDirection: " +client.getDirection());
+                                    System.out.println("\tTown: " +client.getTown());
+                                    System.out.println("\tTelephone: " +client.getTelephone());
+                                }
                             }
-                            
                         }catch(DAOException ex){
                             System.out.println("Error listing clients!");
                         }
                        break;
                     case 2:
-                       //llamar a ver productos
+                       try{
+                           productsArray = productDAOImplem.list(DatabaseConnection.getInstance());
+                           
+                           if(productsArray.isEmpty()){
+                               System.out.println("Table products it's empty");
+                           }else{
+                               for(Product product : productsArray){
+                                   System.out.println("Product ID: " +product.getIdProduct());
+                                   System.out.println("\tDescription: " +product.getDescription());
+                                   System.out.println("\tCurrent stock: " +product.getCurrentStock());
+                                   System.out.println("\tPVP: " +product.getPvp());
+                               }
+                           }
+                       }catch(DAOException ex){
+                           System.out.println("Error listing products");
+                       }
                        break;
                     case 3:
                        break;

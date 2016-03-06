@@ -16,7 +16,6 @@ public class ClientDAOImplem implements InterfaceDAOGeneral<Client, String>{
     public ArrayList<Client> list(Connection connection) throws DAOException {		
 
         ArrayList<Client> clients = new ArrayList();
-        Client client = new Client();
         String queryAllClients = "SELECT * FROM clients";		
         Statement statement = null;		
         ResultSet resultSet = null;
@@ -26,7 +25,8 @@ public class ClientDAOImplem implements InterfaceDAOGeneral<Client, String>{
             statement = connection.createStatement();				
             resultSet = statement.executeQuery(queryAllClients);
             
-            while (resultSet.next()){		
+            while (resultSet.next()){
+                Client client = new Client();
                 client.setCif(resultSet.getString("cif"));				
                 client.setName(resultSet.getString("name"));
                 client.setDirection(resultSet.getString("direction"));				
