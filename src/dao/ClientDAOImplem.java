@@ -23,9 +23,9 @@ public class ClientDAOImplem implements InterfaceDAOGeneral<Client, String>{
         try {		
             connection = DatabaseConnection.getInstance();		
             Statement stmt = connection.createStatement();		
-            ResultSet rs = stmt.executeQuery(queryAllClients);		
-            Client client = new Client();		
-
+            ResultSet rs = stmt.executeQuery(queryAllClients);				
+            Client client = new Client();
+            
             while (rs.next()){		
                 client.setCif(rs.getString(1));		
                 System.out.println(rs.getString(1));		
