@@ -12,8 +12,6 @@ import models.Product;
 import models.Sale;
 import singleton.DatabaseConnection;
 
-
-
 public class saleDAOJDBCImplem{
 
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
@@ -43,7 +41,7 @@ public class saleDAOJDBCImplem{
         return salesArray;
     }
     
-    public void insertSales(Client client, Product product, Sale sale,Connection connection) throws DAOException{
+    public void insertSales(Client client, Product product, Sale sale, Connection connection) throws DAOException{
         boolean result = false;
         String validateClientCif = "SELECT * FROM clients WHERE cif = ?";
         String validateProductId = "SELECT * FROM products AS p, product_sales AS ps WHERE p.idProduct = ? AND p.idProduct = ps.idProduct";

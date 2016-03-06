@@ -13,6 +13,7 @@ import singleton.DatabaseConnection;
 
 public class clientDAOJDBCImplem implements interfaceDAO<Client, String>{ 
 
+    //Inherited method from interfaceDAO
     @Override
     public ArrayList<Client> list(Connection connection) throws DAOException {
    

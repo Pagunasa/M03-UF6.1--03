@@ -2,12 +2,14 @@ package models;
 
 public class Client {
     
+    //Class variables
     private String cif;
     private String name;
     private String direction;
     private String town;
     private String telephone;
 
+    //Getters
     public String getCif() {
         return cif;
     }
@@ -28,6 +30,7 @@ public class Client {
         return telephone;
     }
 
+    //Setters
     public void setCif(String cif) {
         this.cif = cif;
     }

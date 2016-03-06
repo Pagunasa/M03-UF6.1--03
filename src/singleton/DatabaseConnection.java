@@ -6,24 +6,28 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     
-    private static Connection connection;
+    //Instance variable
+    private static Connection instance;
     
+    //Necessary empty constructor
     private DatabaseConnection(){}
     
+    //getInstance Method
     public static Connection getInstance() throws SQLException{
-        if (connection == null){
-            connection = DriverManager.getConnection(MYSQLConnection.servername,
+        if (instance == null){
+            instance = DriverManager.getConnection(MYSQLConnection.servername,
                     MYSQLConnection.username,
                     MYSQLConnection.password);
             System.out.println("Database Opened");
         }
-        return connection;
+        return instance;
     }
     
+    //Close the connection to database
     public static void closeConnection() throws SQLException{
-        if (connection != null){
-            connection.close();
-            connection = null;
+        if (instance != null){
+            instance.close();
+            instance = null;
             System.out.println("Database Closed");
         }
     }

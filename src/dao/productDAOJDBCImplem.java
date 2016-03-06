@@ -7,6 +7,7 @@ import models.Product;
 
 public class productDAOJDBCImplem implements interfaceDAO<Product, Integer>{
 
+    //Inherited method from interfaceDAO
     @Override
     public ArrayList<Product> list(Connection connection) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
