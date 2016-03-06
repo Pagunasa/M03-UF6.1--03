@@ -7,7 +7,7 @@ public class Product {
     private int currenStock;
     private double pvp;
 
-    public int getProduct() {
+    public int getIdProduct() {
         return this.idProduct;
     }
 
