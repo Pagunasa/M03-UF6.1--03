@@ -1,20 +1,16 @@
 package dao;
 
-import models.Client;
-import models.Product;
-import models.Sale;
-
 public class DAOFactory {
     
-    public static Client createClient(){
-        return new Client();
+    public ClientDAOJDBCImplem createClientDAO(){
+        return new ClientDAOJDBCImplem();
     }
     
-    public static Product createProduct(){
-        return new Product();
+    public ProductDAOJDBCImplem createProductDAO(){
+        return new ProductDAOJDBCImplem();
     }
     
-    public static Sale createSale(){
-        return new Sale();
+    public SaleDAOJDBCImplem createSaleDAO(){
+        return new SaleDAOJDBCImplem();
     }
 }
