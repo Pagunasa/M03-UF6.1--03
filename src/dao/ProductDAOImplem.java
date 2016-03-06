@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import models.Product;	
-import singleton.DatabaseConnection;
 
 public class ProductDAOImplem implements InterfaceDAOGeneral<Product, Integer>{		
 
@@ -20,7 +19,6 @@ public class ProductDAOImplem implements InterfaceDAOGeneral<Product, Integer>{
         ResultSet resultSet = null;
         
         try {		
-            connection = DatabaseConnection.getInstance();		
             statement = connection.createStatement();				
             resultSet = statement.executeQuery(queryAllClients);
             
