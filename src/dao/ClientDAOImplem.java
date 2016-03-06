@@ -5,9 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;		
 import java.sql.SQLException;		
 import java.sql.Statement;		
-import java.util.ArrayList;		
-import java.util.logging.Level;		
-import java.util.logging.Logger;		
+import java.util.ArrayList;			
 import models.Client;		
 import singleton.DatabaseConnection;		
 
@@ -17,29 +15,52 @@ public class ClientDAOImplem implements InterfaceDAOGeneral<Client, String>{
     @Override		
     public ArrayList<Client> list(Connection connection) throws DAOException {		
 
-        ArrayList<Client> clients = new ArrayList();		
+        ArrayList<Client> clients = new ArrayList();
+        Client client = new Client();
         String queryAllClients = "SELECT * FROM clients";		
-
+        Statement statement = null;		
+        ResultSet resultSet = null;
+        
         try {		
             connection = DatabaseConnection.getInstance();		
-            Statement stmt = connection.createStatement();		
-            ResultSet rs = stmt.executeQuery(queryAllClients);				
-            Client client = new Client();
+            statement = connection.createStatement();				
+            resultSet = statement.executeQuery(queryAllClients);
             
-            while (rs.next()){		
-                client.setCif(rs.getString(1));		
-                System.out.println(rs.getString(1));		
-                client.setDirection(rs.getString(3));		
-                client.setName(rs.getString(2));		
-                client.setTown(rs.getString(4));		
-                client.setTelephone(rs.getString(5));		
+            while (resultSet.next()){		
+                client.setCif(resultSet.getString("cif"));				
+                client.setName(resultSet.getString("name"));
+                client.setDirection(resultSet.getString("direction"));				
+                client.setTown(resultSet.getString("town"));		
+                client.setTelephone(resultSet.getString("telephone"));	
+                
+                //Add the client to ArrayList<Client> 
                 clients.add(client);		
             }		
 
-        } catch (SQLException ex) {		
-            Logger.getLogger(ClientDAOImplem.class.getName()).log(Level.SEVERE, null, ex);		
-        }		
-
+        }catch (SQLException ex) {		
+            throw new DAOException("Error listing clients");		
+        }finally{
+            //Closing Statement
+            if(statement != null){
+                try{
+                    statement.close();
+                }catch(SQLException ex){
+                    System.out.println(ex.getMessage());
+                    System.out.println(ex.getErrorCode());
+                }
+            }
+            
+            //Closing ResultSet
+            if(resultSet != null){
+                try{
+                    resultSet.close();
+                }catch(SQLException ex){
+                    System.out.println(ex.getMessage());
+                    System.out.println(ex.getErrorCode());
+                }
+            }
+        }
+        
         return clients;		
     }		
 }

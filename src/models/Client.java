@@ -8,41 +8,34 @@ public class Client {
     private String direction;
     private String town;
     private String telephone;
-    
-    public Client(){}
-    
-    public Client(String cif){
-        this.cif = cif;
-    }
-    
-    //Client constructor
+    /*
     public Client(String cif, String name, String direction, String town, String telephone){
         this.cif = cif;
         this.name = name;
         this.direction = direction;
         this.town = town;
         this.telephone = telephone;
-    }
-
+    }*/
+    
     //Getters
     public String getCif() {
-        return cif;
+        return this.cif;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getDirection() {
-        return direction;
+        return this.direction;
     }
 
     public String getTown() {
-        return town;
+        return this.town;
     }
 
     public String getTelephone() {
-        return telephone;
+        return this.telephone;
     }
 
     //Setters

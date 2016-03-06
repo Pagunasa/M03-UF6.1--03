@@ -17,27 +17,24 @@ public class SaleDAOImplem{
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
         ArrayList<Sale> salesArray = new ArrayList<>();
         Sale sale = new Sale();
-        String selectQuery = "SELECT * FROM sales WHERE client_cif = ?";
         PreparedStatement prepareStatement = null;
         ResultSet resultSet = null;
         
+        
         try {
             connection = DatabaseConnection.getInstance();
-            prepareStatement = connection.prepareStatement(selectQuery);
+            prepareStatement = connection.prepareStatement("SELECT * FROM sales WHERE client_cif = ?");
             prepareStatement.setString(1, client.getCif());
-            resultSet = prepareStatement.executeQuery(selectQuery);
+            resultSet = prepareStatement.executeQuery();
             
             while(resultSet.next()){
                 sale.setIdSale(resultSet.getInt("idSale"));
                 sale.setSaleDate(resultSet.getDate("saleDate"));
+                salesArray.add(sale);
             }
             
-            sale.setClientCif(client.getCif());
-            
-            salesArray.add(sale);
         }catch(SQLException ex){
-            System.out.println(ex.getErrorCode());
-            System.out.println(ex.getMessage());
+            throw new DAOException("Error adding sale in the list");
         }finally{
             if(prepareStatement != null){
                 try{
@@ -63,7 +60,7 @@ public class SaleDAOImplem{
     
     public void insertSales(Client client, Product product, Sale sale, Connection connection) throws DAOException{
         boolean result = false;
-        String validateClientCif = "SELECT * FROM clients WHERE cif = ?";
+        String validateClientCif = "SELECT * FROM clients WHERE cif = '?'";
         String validateProductId = "SELECT * FROM products AS p, product_sales AS ps WHERE p.idProduct = ? AND p.idProduct = ps.idProduct";
         String validateSaleDate = "SELECT * FROM sales WHERE saleDate = NOW()";
         String insertSale = "INSERT INTO sales (idSale, saleDate, client_cif) VALUES (null,?,?)";
@@ -146,8 +143,7 @@ public class SaleDAOImplem{
             }
             
         }catch(SQLException ex){
-            System.out.println(ex.getErrorCode());
-            System.out.println(ex.getMessage());
+            throw new DAOException("Error adding sale");
         }finally{
             if(prepareStatementClients != null){
                 try{
