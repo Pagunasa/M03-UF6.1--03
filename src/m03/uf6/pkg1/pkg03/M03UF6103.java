@@ -8,6 +8,7 @@ import exceptions.DAOException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -32,10 +33,9 @@ public class M03UF6103 {
     DAOFactory productFactory = new DAOFactory();
     ProductDAOImplem productDAOImplem = productFactory.createProductDAO();
     ArrayList<Product> productsArray;
-    
    
         try{
-            DatabaseConnection.getInstance();
+            Connection connection = DatabaseConnection.getInstance();
 
             int option;
 
@@ -51,7 +51,7 @@ public class M03UF6103 {
                 switch(option){
                     case 1:
                         try{
-                            clientsArray = clientDAOImplem.list(DatabaseConnection.getInstance());
+                            clientsArray = clientDAOImplem.list(connection);
                             
                             if(clientsArray.isEmpty()){
                                 System.out.println("Table clients it's empty!");
@@ -70,7 +70,7 @@ public class M03UF6103 {
                        break;
                     case 2:
                        try{
-                           productsArray = productDAOImplem.list(DatabaseConnection.getInstance());
+                           productsArray = productDAOImplem.list(connection);
                            
                            if(productsArray.isEmpty()){
                                System.out.println("Table products it's empty");
@@ -96,7 +96,7 @@ public class M03UF6103 {
                             Client client = new Client();
                             client.setCif(cif);
 
-                            salesArray = saleDAOImplem.listSalesByClient(client, DatabaseConnection.getInstance());
+                            salesArray = saleDAOImplem.listSalesByClient(client, connection);
                             
                             for(Sale sale : salesArray){
                                 System.out.println("Sale: " +sale.getIdSale());
