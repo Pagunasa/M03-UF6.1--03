@@ -14,6 +14,8 @@ import singleton.DatabaseConnection;
 
 public class SaleDAOImplem{
 
+    //Hola k tal??
+    
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
         ArrayList<Sale> salesArray = new ArrayList<>();
         Sale sale = new Sale();
