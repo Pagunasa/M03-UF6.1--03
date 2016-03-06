@@ -18,14 +18,12 @@ public class SaleDAOJDBCImplem{
         ArrayList<Sale> salesArray = new ArrayList<>();
         Sale sale = new Sale();
         String selectQuery = "SELECT * FROM sales WHERE client_cif = ?";
-        PreparedStatement prepareStatement = null;
-        ResultSet resultSet = null;
         
         try {
             connection = DatabaseConnection.getInstance();
-            prepareStatement = connection.prepareStatement(selectQuery);
+            PreparedStatement prepareStatement = connection.prepareStatement(selectQuery);
             prepareStatement.setString(1, client.getCif());
-            resultSet = prepareStatement.executeQuery(selectQuery);
+            ResultSet resultSet = prepareStatement.executeQuery(selectQuery);
             
             while(resultSet.next()){
                 sale.setIdSale(resultSet.getInt("idSale"));
@@ -38,24 +36,6 @@ public class SaleDAOJDBCImplem{
         }catch(SQLException ex){
             System.out.println(ex.getErrorCode());
             System.out.println(ex.getMessage());
-        }finally{
-            if(prepareStatement != null){
-                try{
-                    prepareStatement.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(resultSet != null){
-                try{
-                    resultSet.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
         }
         
         return salesArray;
@@ -67,27 +47,20 @@ public class SaleDAOJDBCImplem{
         String validateProductId = "SELECT * FROM products AS p, product_sales AS ps WHERE p.idProduct = ? AND p.idProduct = ps.idProduct";
         String validateSaleDate = "SELECT * FROM sales WHERE saleDate = NOW()";
         String insertSale = "INSERT INTO sales (idSale, saleDate, client_cif) VALUES (null,?,?)";
-        PreparedStatement prepareStatementClients = null;
-        PreparedStatement prepareStatementProducts = null;
-        Statement statementSales = null;
-        PreparedStatement prepareStatementInsert = null;
-        ResultSet resultSetClients = null;
-        ResultSet resultSetProducts = null;
-        ResultSet resultSetSales = null;
         
         try{
             connection = DatabaseConnection.getInstance();
             //Clients validator
-            prepareStatementClients = connection.prepareStatement(validateClientCif);
+            PreparedStatement prepareStatementClients = connection.prepareStatement(validateClientCif);
             prepareStatementClients.setString(1, client.getCif());
-            resultSetClients = prepareStatementClients.executeQuery();
+            ResultSet resultSetClients = prepareStatementClients.executeQuery();
             //Products validator
-            prepareStatementProducts = connection.prepareStatement(validateProductId);
+            PreparedStatement prepareStatementProducts = connection.prepareStatement(validateProductId);
             prepareStatementProducts.setInt(1, product.getIdProduct());
-            resultSetProducts = prepareStatementProducts.executeQuery();
+            ResultSet resultSetProducts = prepareStatementProducts.executeQuery();
             //Sales validator
-            statementSales = connection.createStatement();
-            resultSetSales = statementSales.executeQuery(validateSaleDate);
+            Statement statementSales = connection.createStatement();
+            ResultSet resultSetSales = statementSales.executeQuery(validateSaleDate);
             
             
             if(resultSetClients.next()){
@@ -119,89 +92,24 @@ public class SaleDAOJDBCImplem{
             }
             
             /*FALTA COMPROBAR LA CANTIDAD*/
-            
-            //Insert sales on database
             try{
                 if(result){
-                    prepareStatementInsert = connection.prepareStatement(insertSale);
-                    prepareStatementInsert.setDate(1, sale.getSaleDate());
-                    prepareStatementInsert.setString(2, client.getCif());
+                    PreparedStatement prepareStatement = connection.prepareStatement(insertSale);
+                    prepareStatement.setDate(1, sale.getSaleDate());
+                    prepareStatement.setString(2, client.getCif());
 
-                    int rows = prepareStatementInsert.executeUpdate(insertSale);
+                    int rows = prepareStatement.executeUpdate(insertSale);
 
                     System.out.println(rows+ " have been updated");
                 }
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
                 System.out.println(ex.getErrorCode());
-            }finally{
-                if(prepareStatementInsert != null){
-                    try{
-                        prepareStatementInsert.close();
-                    }catch(SQLException ex){
-                        System.out.println(ex.getMessage());
-                        System.out.println(ex.getErrorCode());
-                    }
-                }
             }
             
         }catch(SQLException ex){
             System.out.println(ex.getErrorCode());
             System.out.println(ex.getMessage());
-        }finally{
-            if(prepareStatementClients != null){
-                try{
-                    prepareStatementClients.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(resultSetClients != null){
-                try{
-                    resultSetClients.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(prepareStatementProducts != null){
-                try{
-                    prepareStatementProducts.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(resultSetProducts != null){
-                try{
-                    resultSetProducts.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(statementSales != null){
-                try{
-                    statementSales.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
-            
-            if(resultSetSales != null){
-                try{
-                    resultSetSales.close();
-                }catch(SQLException ex){
-                    System.out.println(ex.getMessage());
-                    System.out.println(ex.getErrorCode());
-                }
-            }
         }
     }
 }
