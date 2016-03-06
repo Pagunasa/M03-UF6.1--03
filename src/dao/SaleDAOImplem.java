@@ -12,7 +12,7 @@ import models.Product;
 import models.Sale;
 import singleton.DatabaseConnection;
 
-public class SaleDAOJDBCImplem{
+public class SaleDAOImplem{
 
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
         ArrayList<Sale> salesArray = new ArrayList<>();

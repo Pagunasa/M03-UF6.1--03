@@ -2,15 +2,15 @@ package dao;
 
 public class DAOFactory {
     
-    public ClientDAOJDBCImplem createClientDAO(){
-        return new ClientDAOJDBCImplem();
+    public ClientDAOImplem createClientDAO(){
+        return new ClientDAOImplem();
     }
     
-    public ProductDAOJDBCImplem createProductDAO(){
-        return new ProductDAOJDBCImplem();
+    public ProductDAOImplem createProductDAO(){
+        return new ProductDAOImplem();
     }
     
-    public SaleDAOJDBCImplem createSaleDAO(){
-        return new SaleDAOJDBCImplem();
+    public SaleDAOImplem createSaleDAO(){
+        return new SaleDAOImplem();
     }
 }
