@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -130,16 +132,72 @@ public class M03UF6103 {
 
                             salesArray = saleDAOImplem.listSalesByClient(client, connection);
                             
+                            int i = 0;
+                            double totalAmount = 0;
+                            double pvp, quantity, amount = 0;
+                            int a = 1;
+                            
+                            PreparedStatement prepareStatementPS= connection.prepareStatement("SELECT quantity, idProduct FROM products_sales WHERE idSale = ?");
+                            
                             for(Sale sale : salesArray){
-                                System.out.println("Sale: " +sale.getIdSale());
+                                prepareStatementPS.setInt(1, sale.getIdSale());
+                                ResultSet resultSetPS = prepareStatementPS.executeQuery();
+                               
+                                PreparedStatement prepareStatementSale= connection.prepareStatement("SELECT client_cif FROM sales WHERE idSale = ?");
+                                prepareStatementSale.setInt(1, sale.getIdSale());
+                                ResultSet resultSetSa = prepareStatementSale.executeQuery();
+                                
+                                if (resultSetSa.next()){
+                                    PreparedStatement prepareStatementCl = connection.prepareStatement("SELECT name FROM clients WHERE cif = ?");
+                                    prepareStatementCl.setString(1, resultSetSa.getString("client_cif"));
+                                    ResultSet resultCl = prepareStatementCl.executeQuery();
+                                    
+                                    if (resultCl.next()){
+                                        if (a != 0){
+                                            System.out.println("Sales of Client: "+resultCl.getString("name")+"\n");
+                                            a = 0;
+                                        }
+                                    }
+                                    
+                                    
+                                }
+                     
+                                if (resultSetPS.next()){
+                                                                      
+                                    PreparedStatement prepareStatementProducts = connection.prepareStatement("SELECT * FROM products WHERE idProduct = ?");
+                                    prepareStatementProducts.setInt(1, resultSetPS.getInt("idProduct"));
+                                    ResultSet resultSetProduct = prepareStatementProducts.executeQuery();
+                                        
+                                        if (resultSetProduct.next()){
+                                            System.out.println("Sale: " +sale.getIdSale());                               
+                                            System.out.println("\t Product: "+ resultSetProduct.getString("description") + " - PVP: " + resultSetProduct.getDouble("pvp"));
+                                            System.out.println("\t Quantity: "+resultSetPS.getInt("quantity"));
+                                            pvp = resultSetProduct.getDouble("pvp");
+                                            quantity = resultSetPS.getInt("quantity");
+                                            amount = pvp * quantity;
+                                            totalAmount = totalAmount + amount;
+                                            System.out.println("\t Amount: "+ amount + "€ \n");
+                                        }
+                                }
+                                i++;
                             }
+                            System.out.println("Total number of sales: " +i);
+                            System.out.println("Total amount: " +totalAmount+ "€ \n");
                         }catch(IOException | DAOException ex){
                             System.out.println(ex.getMessage());
                         }
                        break;
                     case 5:
                        System.out.println("Thanks to use our application!!");
-                       System.exit(0);
+                        try{
+                            DatabaseConnection.closeConnection();
+                        }catch(SQLException ex){
+                            System.out.println(ex.getMessage());
+                            System.out.println(ex.getErrorCode());
+                        } finally {
+                           System.exit(0);
+                        }
+
                        break;
                     default:
                        System.out.println("Not valid option!");
