@@ -11,11 +11,10 @@ import models.Client;
 import models.Product;
 import models.ProductSale;
 import models.Sale;
-import singleton.DatabaseConnection;
 
 public class SaleDAOImplem{
 
-    
+    //Method to list sales by a client CIF
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
         ArrayList<Sale> salesArray = new ArrayList<>();
         PreparedStatement prepareStatement = null;
@@ -23,7 +22,6 @@ public class SaleDAOImplem{
         
         
         try {
-            connection = DatabaseConnection.getInstance();
             prepareStatement = connection.prepareStatement("SELECT * FROM sales WHERE client_cif = ?");
             prepareStatement.setString(1, client.getCif());
             resultSet = prepareStatement.executeQuery();
@@ -60,9 +58,9 @@ public class SaleDAOImplem{
         return salesArray;
     }
     
+    //Method to insert sales
     public void insertSales(Client client, Product product, Sale sale, ProductSale ps, Connection connection) throws DAOException{
         boolean result = false;
-        
         
         PreparedStatement prepareStatementClients = null;
         PreparedStatement prepareStatementProducts = null;
@@ -72,12 +70,8 @@ public class SaleDAOImplem{
         ResultSet resultSetClients = null;
         ResultSet resultSetProducts = null;
         ResultSet resultSetSales = null;
-        ResultSet resultSetInsertSales = null;
-        ResultSet resultSetPS = null;
-        String cantidad;
         
         try{
-            //connection = DatabaseConnection.getInstance();
             //Clients validator
             prepareStatementClients = connection.prepareStatement("SELECT * FROM clients WHERE cif = ?");
             prepareStatementClients.setString(1, client.getCif());
@@ -91,7 +85,7 @@ public class SaleDAOImplem{
             statementSales = connection.createStatement();
             resultSetSales = statementSales.executeQuery("SELECT * FROM sales WHERE saleDate = NOW()");
 
-            
+            //Validate that the client CIF exists
             if(resultSetClients.next()){
                 result = true;
             }else {
@@ -99,6 +93,7 @@ public class SaleDAOImplem{
                 result = false;
             }
             
+            //Validate that the product ID exists
             if(resultSetProducts.next()){
                if (result) {result = true;}
             }else{
@@ -106,6 +101,7 @@ public class SaleDAOImplem{
                 result = false;
             }
             
+            //Validate that stock of a product is higher than 0
             if(resultSetProducts.getInt("currentStock") > 0){
                if (result) {result = true;}
             }else{
@@ -113,13 +109,7 @@ public class SaleDAOImplem{
                 result = false;
             }
             
-           /* if(resultSetSales.next()){
-                result = true;
-            }else{
-                System.out.println("Incorrect date");
-                result = false;
-            }*/
-            
+            //Validate that quantity of a product is higher than stock
             if(ps.getQuantity() > resultSetProducts.getInt("currentStock")){
                 System.out.println("We do not have enough stock sorry");
                 result = false;
@@ -133,18 +123,18 @@ public class SaleDAOImplem{
             //Insert sales on database
             try{
                 if(result){
-                    prepareStatementInsert = connection.prepareStatement("INSERT INTO sales (idSale, saleDate, client_cif) VALUES (null,NOW(),?)");
+                    prepareStatementInsert = connection.prepareStatement("INSERT INTO sales (idSale, saleDate, client_cif) VALUES (null, NOW(), ?)");
                     prepareStatementInsert.setString(1, client.getCif());
 
                     int rows = prepareStatementInsert.executeUpdate();
                     
-                    //Luego lo retiramos
                     System.out.println(rows+ " rows have been updated");
                 }
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
                 System.out.println(ex.getErrorCode());
             }finally{
+                //Closing PrepareStatement of insert sales
                 if(prepareStatementInsert != null){
                     try{
                         prepareStatementInsert.close();
@@ -161,6 +151,7 @@ public class SaleDAOImplem{
             System.out.println(ex.getErrorCode());
             throw new DAOException("Error adding sale");
         }finally{
+            //Closing PrepareStatement of clients
             if(prepareStatementClients != null){
                 try{
                     prepareStatementClients.close();
@@ -172,7 +163,6 @@ public class SaleDAOImplem{
             
             try{
                 if(result){
-
                     Statement statement = null;
                     PreparedStatement updateStock = null;
                     ResultSet resultSet = null;
@@ -199,13 +189,13 @@ public class SaleDAOImplem{
                     int rows2 = updateStock.executeUpdate();
                     int rows = prepareStatementProductSale.executeUpdate();
                     
-                    //Luego lo retiramos
-                    System.out.println(rows+rows2+" rows have been updated");
+                    System.out.println(rows + rows2+ " rows have been updated");
                 }
             } catch (SQLException ex){
                 System.out.println(ex.getMessage());
                 System.out.println(ex.getErrorCode());
             }finally{
+                //Closing PrepareStatement of productsale
                 if(prepareStatementProductSale != null){
                     try{
                         prepareStatementProductSale.close();
@@ -215,7 +205,8 @@ public class SaleDAOImplem{
                     }
                 }
             }
-            
+           
+            //Closing ResultSet of clients
             if(resultSetClients != null){
                 try{
                     resultSetClients.close();
@@ -225,6 +216,7 @@ public class SaleDAOImplem{
                 }
             }
             
+            //Closing PrepareStatement of products
             if(prepareStatementProducts != null){
                 try{
                     prepareStatementProducts.close();
@@ -234,6 +226,7 @@ public class SaleDAOImplem{
                 }
             }
             
+            //Closing ResultSet of products
             if(resultSetProducts != null){
                 try{
                     resultSetProducts.close();
@@ -243,6 +236,7 @@ public class SaleDAOImplem{
                 }
             }
             
+            //Closing Statement of sales
             if(statementSales != null){
                 try{
                     statementSales.close();
@@ -252,6 +246,7 @@ public class SaleDAOImplem{
                 }
             }
             
+            //Closing ResultSet of sales
             if(resultSetSales != null){
                 try{
                     resultSetSales.close();

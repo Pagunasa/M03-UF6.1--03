@@ -8,14 +8,6 @@ public class Client {
     private String direction;
     private String town;
     private String telephone;
-    /*
-    public Client(String cif, String name, String direction, String town, String telephone){
-        this.cif = cif;
-        this.name = name;
-        this.direction = direction;
-        this.town = town;
-        this.telephone = telephone;
-    }*/
     
     //Getters
     public String getCif() {
