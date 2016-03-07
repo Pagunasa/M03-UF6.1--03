@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import models.Client;
 import models.Product;
+import models.ProductSale;
 import models.Sale;
 import singleton.DatabaseConnection;
 
@@ -87,6 +88,37 @@ public class M03UF6103 {
                        }
                        break;
                     case 3:
+                        try{
+                            System.out.println("Enter a costumer CIF: ");
+                            String cif = stdin.readLine();
+                            
+                            Client client = new Client();
+                            client.setCif(cif);
+                            
+                            System.out.println("Enter a product ID: ");
+                            String idProduct = stdin.readLine();
+                            Integer ID = Integer.parseInt(idProduct);
+                            
+                            System.out.println("Enter a quantity ID: ");
+                            String quantity = stdin.readLine();
+                            Integer quantityProduct = Integer.parseInt(quantity);
+                            
+                            Product prod = new Product();
+                            prod.setIdProduct(ID);
+                            
+                            Sale proSale = new Sale();
+                            proSale.setClientCif(cif);
+                                        
+                            ProductSale ps = new ProductSale();
+                            ps.setQuantity(quantityProduct);
+                            
+                            SaleDAOImplem sale = new SaleDAOImplem();
+                            sale.insertSales(client, prod, proSale, ps, connection);
+                            
+                            }catch(IOException | DAOException ex){
+                            System.out.println(ex.getMessage());
+                        }
+                        
                        break;
                     case 4:
                         try{
