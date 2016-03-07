@@ -18,7 +18,6 @@ public class SaleDAOImplem{
     
     public ArrayList<Sale> listSalesByClient(Client client, Connection connection) throws DAOException{
         ArrayList<Sale> salesArray = new ArrayList<>();
-        Sale sale = new Sale();
         PreparedStatement prepareStatement = null;
         ResultSet resultSet = null;
         
@@ -30,6 +29,7 @@ public class SaleDAOImplem{
             resultSet = prepareStatement.executeQuery();
             
             while(resultSet.next()){
+                Sale sale = new Sale();
                 sale.setIdSale(resultSet.getInt("idSale"));
                 sale.setSaleDate(resultSet.getDate("saleDate"));
                 salesArray.add(sale);
